@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-south-1"
+  region = "ap-southeast-1"
 }
 
 resource "aws_security_group" "simpleflask_sg" {
@@ -50,7 +50,7 @@ resource "aws_security_group" "simpleflask_sg" {
 }
 
 resource "aws_instance" "simpleflask_instance" {
-  ami             = "ami-03bb6d83c60fc5f7c"
+  ami             = "ami-0123c9b6bfb7eb962"
   instance_type   = "t2.micro"
   key_name        = "deploy" # Ensure 'deploy' key pair exists in your AWS account
   security_groups = [aws_security_group.simpleflask_sg.name]

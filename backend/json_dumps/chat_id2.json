@@ -1,0 +1,7 @@
+{
+    "stack": "LAMP",
+    "app_name": "chronicles of narnia",
+    "code/image": "https://drive.google.com/drive/home",
+    "deploy_strategy": "Self-Managed",
+    "deployment": "Yes"
+}

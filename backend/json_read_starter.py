@@ -8,4 +8,4 @@
 
 import os
 
-os.system("python3 json_read.py")
+os.system("python3 json_process.py")

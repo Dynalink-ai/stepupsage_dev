@@ -21,9 +21,9 @@ def check_and_move_file(file_path, deploy_confirm_dir, deploy_save_dir):
     return False  # Indicate that no file has been moved
 
 def main():
-    json_dumps_dir = "json_dumps"
-    deploy_confirm_dir = "deploy_confirm"
-    deploy_save_dir = "deploy_save"
+    json_dumps_dir = "json_dumps/"
+    deploy_confirm_dir = "deploy_confirm/"
+    deploy_save_dir = "deploy_save/"
 
     while True:
         moved = False  # Initialize the flag as False

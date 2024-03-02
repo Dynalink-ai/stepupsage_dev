@@ -2,7 +2,7 @@ provider "aws" {
   region = "ap-southeast-1"
 }
 
-resource "aws_security_group" "simpleflask_sg" {
+resource "aws_security_group" "simple_flask_sg" {
   name        = "simpleflask-sg"
   description = "Allow web and custom TCP traffic"
 

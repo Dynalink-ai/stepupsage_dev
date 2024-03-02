@@ -23,7 +23,7 @@ def write_instance_details_to_file(instance, file_path):
 
 def main():
     region = 'ap-southeast-1'
-    instance_name = 'simpleflask_instance'
+    instance_name = 'simpleflask'
     destination_dir = '../backend2/be_dumps'
     file_name = 'instance_details.txt'
     file_path = os.path.join(destination_dir, file_name)

@@ -7,6 +7,13 @@ resource "aws_security_group" "simple_flask_sg" {
   description = "Allow web and custom TCP traffic"
 
   ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -53,7 +60,7 @@ resource "aws_instance" "simpleflask_instance" {
   ami             = "ami-0123c9b6bfb7eb962"
   instance_type   = "t2.micro"
   key_name        = "deploy" # Ensure 'deploy' key pair exists in your AWS account
-  security_groups = [aws_security_group.simpleflask_sg.name]
+  security_groups = [aws_security_group.simple_flask_sg.name]
 
   root_block_device {
     volume_size = 20

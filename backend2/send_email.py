@@ -22,8 +22,8 @@ port = 587  # For starttls
 # Create a secure SSL context and send the email
 message = MIMEMultipart()
 message["Subject"] = "Result Notification"
-message["From"] = "easy.ai.deploys@gmail.com"
-message["To"] = "24ram46r@gmail.com"
+message["From"] = sender_email
+message["To"] = recipient_email
 
 # Add body to email
 message.attach(MIMEText(email_content, "plain"))

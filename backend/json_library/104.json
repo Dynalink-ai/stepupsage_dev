@@ -1,8 +1,0 @@
-{
-    "stack": "mean",
-    "aws_acc": "yes",
-    "code/container": "ecr",
-    "type": "monolithic",
-    "deployment": "ec2",
-    "port": 5000
-  }

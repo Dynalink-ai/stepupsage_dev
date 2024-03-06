@@ -1,0 +1,76 @@
+---
+- name: Deploy Docker Container on EC2
+  hosts: ec2_instances
+  become: yes
+  tasks:
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600 # Update the cache if it's older than 1 hour
+
+    - name: Install prerequisites
+      ansible.builtin.apt:
+        name: 
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+    
+    - name: Install Python3 and pip
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - python3
+        - python3-pip
+
+    - name: Install Docker SDK for Python
+      ansible.builtin.pip:
+        name: docker
+        state: present
+        executable: pip3
+
+
+    - name: Install Docker SDK for Python
+      ansible.builtin.pip:
+        name: docker
+        state: present
+
+    - name: Add Docker's official GPG key
+      ansible.builtin.apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker's repository
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+        state: present
+
+    - name: Install Docker CE
+      ansible.builtin.apt:
+        name: docker-ce
+        state: present
+        update_cache: yes
+
+    # Continue with your other tasks...
+
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Pull the Docker image from DockerHub
+      community.docker.docker_image:
+        name: sadashiva84/deploy_cases:v1
+        source: pull
+
+    - name: Run Docker container
+      community.docker.docker_container:
+        name: setupsage_app
+        image: sadashiva84/deploy_cases:v1
+        state: started
+        published_ports:
+          - "5000:5000"
+        restart_policy: always

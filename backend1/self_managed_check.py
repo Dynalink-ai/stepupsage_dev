@@ -1,45 +1,46 @@
 import boto3
 import time
-import os
 
-time.sleep(15)
-def find_instance_by_name(ec2, instance_name):
-    instances = ec2.describe_instances(
-        Filters=[
-            {'Name': 'tag:Name', 'Values': [instance_name]},
-            {'Name': 'instance-state-name', 'Values': ['running']}
-        ]
-    )
-    for reservation in instances['Reservations']:
+ec2 = boto3.client('ec2', region_name='ap-southeast-1')
+
+def fetch_instance_details():
+    response = ec2.describe_instances(Filters=[
+        {
+            'Name': 'instance-state-name',
+            'Values': ['running']
+        },
+    ])
+    
+    for reservation in response['Reservations']:
         for instance in reservation['Instances']:
-            return instance
+            public_ip_address = instance.get('PublicIpAddress')
+            image_id = instance['ImageId']
+            
+            # Fetch the OS type based on the Image ID (This is a simplification. You might need a better logic here)
+            image_details = ec2.describe_images(ImageIds=[image_id])
+            platform_details = image_details['Images'][0].get('PlatformDetails', '')
+            if 'Windows' in platform_details:
+                ansible_user = 'Administrator'
+            elif 'Ubuntu' or 'ubuntu' or 'Ubuntu (Inferred)' in platform_details:
+                ansible_user = 'ubuntu'
+            else:
+                ansible_user = 'ec2-user'  # Default to ec2-user for Amazon Linux, RHEL, etc.
+            
+            return f'{public_ip_address} ansible_user="{ansible_user}" ansible_ssh_private_key_file="/home/infeon/Projects/stepupsage_dev/backend2/ansible_scripts/keypairs/deploy.pem"'
+
     return None
 
-def write_instance_details_to_file(instance, file_path):
-    with open(file_path, 'w') as f:
-        f.write(f"Instance ID: {instance['InstanceId']}\n")
-        f.write(f"IP Address: {instance['PublicIpAddress']}\n")
-    print(f"Details written to {file_path}")
-
 def main():
-    region = 'ap-southeast-1'
-    instance_name = 'simpleflask_instance'
-    destination_dir = '../backend2/be_dumps'
-    file_name = 'instance_details.txt'
-    file_path = os.path.join(destination_dir, file_name)
-
-    ec2 = boto3.client('ec2', region_name=region)
-
     while True:
-        instance = find_instance_by_name(ec2, instance_name)
-        if instance:
-            if not os.path.exists(destination_dir):
-                os.makedirs(destination_dir)
-            write_instance_details_to_file(instance, file_path)
+        details = fetch_instance_details()
+        if details:
+            with open('../backend2/ansible_scripts/hosts.ini', 'a') as file:
+                file.write(f'\n{details}')
+            print("Instance details appended to hosts.ini.")
             break
         else:
-            print(f"Instance '{instance_name}' not available. Retrying in 10 seconds...")
-            time.sleep(10)
+            print("No running instance found. Retrying in 60 seconds...")
+            time.sleep(15)
 
 if __name__ == "__main__":
     main()

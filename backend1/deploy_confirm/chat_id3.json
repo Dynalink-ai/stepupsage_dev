@@ -1,8 +1,0 @@
-{
-    "stack": "Python",
-    "app_name": "simpleflask",
-    "image": "https://github.com/UnpredictablePrashant/Deploy.Ai/tree/frontend2",
-    "deploy_strategy": "Self-Managed",
-    "deploy": "Yes",
-    "cost": "$20 per month"
-}

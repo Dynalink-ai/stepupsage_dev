@@ -9,12 +9,6 @@ def fetch_instance_details():
             'Name': 'instance-state-name',
             'Values': ['running']
         },
-        # Optionally, add more filters to identify your specific instance
-        # For example, filter by tag
-        # {
-        #     'Name': 'tag:YourTagName',
-        #     'Values': ['YourTagValue']
-        # }
     ])
     
     for reservation in response['Reservations']:
@@ -25,7 +19,6 @@ def fetch_instance_details():
             # Fetch the OS type based on the Image ID (This is a simplification. You might need a better logic here)
             image_details = ec2.describe_images(ImageIds=[image_id])
             platform_details = image_details['Images'][0].get('PlatformDetails', '')
-            
             if 'Windows' in platform_details:
                 ansible_user = 'Administrator'
             elif 'Ubuntu' or 'ubuntu' or 'Ubuntu (Inferred)' in platform_details:

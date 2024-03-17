@@ -3,7 +3,6 @@ import time
 import re
 import os
 
-time.sleep(120)
 # Path to your hosts.ini file
 hosts_ini_path = "ansible_scripts/hosts.ini"
 

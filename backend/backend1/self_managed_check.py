@@ -26,7 +26,7 @@ def fetch_instance_details():
             else:
                 ansible_user = 'ec2-user'  # Default to ec2-user for Amazon Linux, RHEL, etc.
             
-            return f'{public_ip_address} ansible_user="{ansible_user}" ansible_ssh_private_key_file="/home/infeon/Projects/stepupsage_dev/backend2/ansible_scripts/keypairs/deploy.pem"'
+            return f'{public_ip_address} ansible_user="{ansible_user}" ansible_ssh_private_key_file="/home/infeon/Projects/stepupsage_dev/backend/backend2/ansible_scripts/keypairs/deploy.pem"'
 
     return None
 
@@ -34,7 +34,7 @@ def main():
     while True:
         details = fetch_instance_details()
         if details:
-            with open('../backend2/ansible_scripts/hosts.ini', 'a') as file:
+            with open('../../backend/backend2/ansible_scripts/hosts.ini', 'a') as file:
                 file.write(f'\n{details}')
             print("Instance details appended to hosts.ini.")
             break

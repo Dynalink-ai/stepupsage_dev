@@ -1,5 +1,6 @@
 import time
 import subprocess
+import os
 def get_file_line_count(filename):
     with open(filename, 'r') as file:
         return sum(1 for _ in file)
@@ -18,8 +19,8 @@ def monitor_file_for_changes(filename, interval=10):
 
         if current_line_count > initial_line_count:
             print("New line detected! Running Ansible playbook...")
-            time.sleep(15)
             run_ansible_playbook('ansible_scripts/deploy_app.yaml', 'ansible_scripts/hosts.ini')
+            os.system('python curl_test.py')
             print("Ansible playbook has been executed. Exiting.")
             break
 

@@ -1,3 +1,4 @@
+# this code to append multiple ec2 instances to the hosts.ini
 import boto3
 
 region = 'ap-south-1'

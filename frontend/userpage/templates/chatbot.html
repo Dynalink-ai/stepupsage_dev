@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <style>
+      #textInput {
+        border: 2px solid black;
+        border-bottom: 3px solid aqua;
+      }
+
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: #009688;
+        padding: 10px;
+        border-radius: 10px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #ae312f;
+        padding: 5px;
+        border-radius: 10px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        background-color: #edeff2;
+        font-family: "Calibri", "Roboto", sans-serif;
+      }
+      .chat_window {
+        position: absolute;
+        width: calc(100% - 20px);
+        max-width: 800px;
+        height: 500px;
+        border-radius: 10px;
+        background-color: #fff;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        background-color: #fff;
+        overflow: hidden;
+      }
+
+      .top_menu {
+        background-color: #fff;
+        width: 100%;
+        padding: 20px 0 15px;
+        box-shadow: 0 1px 30px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+      .top_menu .buttons {
+        margin: 3px 0 0 20px;
+        position: absolute;
+      }
+      .top_menu .buttons .button {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 10px;
+        position: relative;
+      }
+      .top_menu .buttons .button.close {
+        background-color: #f5886e;
+      }
+      .top_menu .buttons .button.minimize {
+        background-color: #fdbf68;
+      }
+      .top_menu .buttons .button.maximize {
+        background-color: #a3d063;
+      }
+      .top_menu .title {
+        text-align: center;
+        color: #bcbdc0;
+        font-size: 20px;
+      }
+      .bottom-container {
+        display: flex;
+        justify-content: space-around;
+      }
+      .messages {
+        position: relative;
+        list-style: none;
+        padding: 20px 10px 0 10px;
+        margin: 0;
+        height: 347px;
+        overflow: scroll;
+      }
+      .messages .message {
+        clear: both;
+        overflow: hidden;
+        margin-bottom: 20px;
+        transition: all 0.5s linear;
+        opacity: 0;
+      }
+      .messages .message.left .avatar {
+        background-color: #f5886e;
+        float: left;
+      }
+      .messages .message.left .text_wrapper {
+        background-color: #ffe6cb;
+        margin-left: 20px;
+      }
+      .messages .message.left .text_wrapper::after,
+      .messages .message.left .text_wrapper::before {
+        right: 100%;
+        border-right-color: #ffe6cb;
+      }
+      .messages .message.left .text {
+        color: #c48843;
+      }
+      .messages .message.left .avatar {
+        float: left;
+        width: 50px;
+        height: 50px;
+        /* background-image: url("../../userpage/static/images/logo.webp"); */
+        background-size: cover;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .messages .message.right .text_wrapper {
+        background-color: #c7eafc;
+        margin-right: 20px;
+        float: right;
+      }
+      .messages .message.right .text_wrapper::after,
+      .messages .message.right .text_wrapper::before {
+        left: 100%;
+        border-left-color: #c7eafc;
+      }
+      .messages .message.right .text {
+        color: #45829b;
+      }
+      .messages .message.appeared {
+        opacity: 1;
+      }
+      .messages .message .avatar {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: inline-block;
+      }
+      .messages .message .text_wrapper {
+        display: inline-block;
+        padding: 20px;
+        border-radius: 6px;
+        width: calc(100% - 85px);
+        min-width: 100px;
+        position: relative;
+      }
+      .messages .message .text_wrapper::after,
+      .messages .message .text_wrapper:before {
+        top: 18px;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+      .messages .message .text_wrapper::after {
+        border-width: 13px;
+        margin-top: 0px;
+      }
+      .messages .message .text_wrapper::before {
+        border-width: 15px;
+        margin-top: -2px;
+      }
+      .messages .message .text_wrapper .text {
+        font-size: 18px;
+        font-weight: 300;
+      }
+
+      .bottom_wrapper {
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+        padding: 20px 20px;
+        position: absolute;
+        bottom: 0;
+      }
+      .bottom_wrapper .message_input_wrapper {
+        display: inline-block;
+        height: 50px;
+        border-radius: 25px;
+        border: 1px solid #bcbdc0;
+        width: calc(100% - 160px);
+        position: relative;
+        padding: 0 20px;
+      }
+      .bottom_wrapper .message_input_wrapper .message_input {
+        border: none;
+        height: 100%;
+        box-sizing: border-box;
+        width: calc(100% - 40px);
+        position: absolute;
+        outline-width: 0;
+        color: gray;
+      }
+      .bottom_wrapper .send_message {
+        width: 140px;
+        height: 50px;
+        display: inline-block;
+        border-radius: 50px;
+        background-color: #a3d063;
+        border: 2px solid #a3d063;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s linear;
+        text-align: center;
+        float: right;
+      }
+      .bottom_wrapper .send_message:hover {
+        color: #a3d063;
+        background-color: #fff;
+      }
+      .bottom_wrapper .send_message .text {
+        font-size: 18px;
+        font-weight: 300;
+        display: inline-block;
+        line-height: 48px;
+      }
+      .share-btn,
+      .refresh-btn {
+        display: inline-block;
+        padding: 5px;
+        background-color: #2196f3;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .share-btn:hover,
+      .refresh-btn:hover {
+        background-color: #0056b3;
+      }
+
+      .refresh-btn {
+        margin-left: 10px;
+      }
+
+      .message_template {
+        display: none;
+      }
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196f3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196f3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+
+      .footer #button {
+        width: 55px;
+        height: 55px;
+        border: #4e919c 12px solid;
+        border-radius: 35px;
+        margin: 0 auto;
+        position: relative;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
+      }
+      .footer #button:hover {
+        width: 55px;
+        height: 55px;
+        border: #3a3a3a 12px solid;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
+        position: relative;
+      }
+      .footer {
+        bottom: 0;
+        left: 0;
+        position: fixed;
+        width: 100%;
+        height: 2em;
+        overflow: hidden;
+        margin: 0 auto;
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
+        z-index: 999;
+      }
+
+      .footer:hover {
+        -webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        -o-transition: all 1s ease;
+        -ms-transition: all 1s ease;
+        transition: all 1s ease;
+        height: 10em;
+      }
+      .footer #container {
+        margin-top: 5px;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 0;
+        left: 0;
+        background: #4e919c;
+      }
+      .footer #cont {
+        position: relative;
+        top: -45px;
+        right: 190px;
+        width: 150px;
+        height: auto;
+        margin: 0 auto;
+      }
+      .footer_center {
+        width: 500px;
+        float: left;
+        text-align: center;
+      }
+      .footer h3 {
+        font-family: "Arial";
+        font-size: 20px;
+        font-weight: 100;
+        margin-top: 70px;
+        margin-left: 10px;
+      }
+      .radioBtn {
+        display: flex;
+      }
+      .off {
+        padding: 5px;
+      }
+      @media only screen and (max-width: 480px) {
+        .message_input_wrapper {
+          width: 60%;
+        }
+
+        .send_message {
+          width: 35%;
+        }
+      }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+
+  <body>
+    <div class="chat_window" onclick="myFunction()">
+      <div class="top_menu">
+        <div class="radioBtnFlex">
+          <div class="radioBtn">
+            <label class="switch">
+              <input type="checkbox" id="toggleSwitch" checked />
+              <span class="slider round"></span>
+            </label>
+            <div class="off">
+              <p id="switchText">Cloud</p>
+            </div>
+          </div>
+        </div>
+        <div class="radioBtn">
+          <div class="title">Stepup Sage</div>
+        </div>
+        <div class="radioBtn">
+          <form action="/action_page.php">
+            <select name="value" id="value">
+              <option value="volvo">1</option>
+              <option value="saab">2</option>
+              <option value="opel">3</option>
+            </select>
+          </form>
+        </div>
+      </div>
+      <ul class="messages"></ul>
+      <div class="bottom_wrapper clearfix">
+        <div class="message_input_wrapper">
+          <input class="message_input" placeholder="..." />
+        </div>
+        <div class="send_message">
+          <div class="icon"></div>
+          <div class="text">Send</div>
+        </div>
+        <div
+          class="Bottom-Container"
+          style="display: flex; justify-content: space-around"
+        >
+          <div class="ShareBtn">
+            <label for="file-upload" class="custom-file-upload">
+              <i class="fas fa-cloud-upload-alt"></i>
+            </label>
+            <input id="file-upload" type="file" />
+          </div>
+          <div class="ShareBtn">
+            <button id="shareBtn" class="share-btn">Share</button>
+          </div>
+          <div class="refreshBtn">
+            <button id="refreshBtn" class="refresh-btn">Refresh</button>
+          </div>
+        </div>
+      </div>
+      <div class="message_template">
+        <li class="message">
+          <div class="avatar"></div>
+          <div class="text_wrapper">
+            <div class="text"></div>
+          </div>
+        </li>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var Message;
+        Message = function (arg) {
+          (this.text = arg.text), (this.message_side = arg.message_side);
+          this.draw = (function (_this) {
+            return function () {
+              var $message;
+              $message = $($(".message_template").clone().html());
+              $message
+                .addClass(_this.message_side)
+                .find(".text")
+                .html(_this.text);
+              $(".messages").append($message);
+              return setTimeout(function () {
+                return $message.addClass("appeared");
+              }, 0);
+            };
+          })(this);
+          return this;
+        };
+        $(function () {
+          var getMessageText, message_side, sendMessage;
+          message_side = "right";
+          getMessageText = function () {
+            var $message_input;
+            $message_input = $(".message_input");
+            return $message_input.val();
+          };
+
+          sendMessage = function (text) {
+            var $messages, message;
+            if (text.trim() === "") {
+              return;
+            }
+            $(".message_input").val("");
+            $messages = $(".messages");
+
+            // Set message_side based on whether the message is from the user or chatbot
+            var message_side = "right";
+
+            message = new Message({
+              text: text,
+              message_side: message_side,
+            });
+
+            // Draw user message
+            message.draw();
+
+            // Call getResponse() to get the chatbot's response
+            $.get("/get", { msg: text }).done(function (data) {
+              var botMessage = new Message({
+                text: data,
+                message_side: "left",
+              });
+
+              // Draw bot message
+              botMessage.draw();
+              $messages.animate(
+                { scrollTop: $messages.prop("scrollHeight") },
+                300
+              );
+            });
+
+            return $messages.animate(
+              { scrollTop: $messages.prop("scrollHeight") },
+              300
+            );
+          };
+
+          $(".send_message").click(function (e) {
+            return sendMessage(getMessageText());
+          });
+          $(".message_input").keyup(function (e) {
+            if (e.which === 13) {
+              return sendMessage(getMessageText());
+            }
+          });
+          // Add "Writing..." message
+          writingMessage = new Message({
+            text: "This is StΣpUp SαgΕ 🤖, Here to help. What do you want to deploy today ?!",
+            message_side: "left",
+          });
+          writingMessage.draw();
+        });
+      }).call(this);
+
+      // Function to render a button within the chatbot's message
+      function appendButtonToMessage(buttonText) {
+        var $btn = $("<button/>", {
+          text: buttonText,
+          id: buttonText.toLowerCase() + "Btn",
+          click: function () {
+            sendMessage(buttonText);
+          },
+        }).addClass("btn btn-primary");
+
+        $(".messages").append($btn);
+      }
+
+      // Modify the chatbot's message drawing function to include the 'save' button
+      // For demonstration, assuming the chatbot decides when to render this button
+      // You can adjust the logic based on your application's needs
+      var botMessage = new Message({
+        text: data + '<button id="saveBtn">Save</button>', // Example of appending a 'Save' button directly within the message
+        message_side: "left",
+      });
+      botMessage.draw();
+
+      // Handling click event for the 'save' button
+      $("#saveBtn").on("click", function () {
+        sendMessage("save");
+      });
+    </script>
+
+    <script>
+      const toggleSwitch = document.getElementById("toggleSwitch");
+      const switchText = document.getElementById("switchText");
+
+      toggleSwitch.addEventListener("change", function () {
+        if (this.checked) {
+          switchText.textContent = "Cloud";
+        } else {
+          switchText.textContent = "Local";
+        }
+      });
+    </script>
+  </body>
+</html>

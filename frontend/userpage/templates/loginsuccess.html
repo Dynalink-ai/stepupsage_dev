@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Deploy.ai</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        /* Inline styles for demonstration purposes */
+        body {
+            overflow:hidden;
+         
+            position: relative; /* To position the chatbot */
+        }
+
+        .sidebar {
+          width: 250px;
+          height: 100%;
+          position: fixed;
+          top: 56px; /* Height of the top navigation bar */
+          left: -250px;
+          background-color: #f8f9fa;
+          border-right: 1px solid #dee2e6;
+          padding-top: 50px;
+          z-index: 1000;
+          transition: left 0.3s ease;
+        }
+
+        .sidebar-menu {
+          list-style-type: none;
+          padding: 0;
+      }
+  
+      .sidebar-menu li {
+          margin-bottom: 10px;
+          margin: 15px
+      }
+  
+      .sidebar-menu li a {
+          text-decoration: none;
+          display: block;
+          padding: 10px;
+          border-radius: 10px;
+          color: #333;
+          transition: background-color 0.3s;
+          background-color: #f8f9fa;
+      }
+  
+      .sidebar-menu li a:hover {
+          background-color: #e9ecef;
+      }
+
+        .toggle-sidebar-btn {
+            position: absolute;
+            top: 70px; /* Adjusted position */
+            right: 10px;
+            background: transparent;
+            border: none;
+            color: #333;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1100;
+            background-color: #027bff;
+    color: black;
+    border-radius: 5px;
+    padding: 5px;
+        }
+
+        .content-card {
+            padding: 20px;
+            margin-left: 0; /* Initially, no margin */
+            transition: margin-left 0.3s ease; /* Smooth transition when sidebar opens/closes */
+        }
+
+        /* Custom styles */
+        .content {
+            padding: 20px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 10px
+        }
+
+        .avatar-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+        }
+
+        .avatar-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #333;
+            cursor: pointer;
+        }
+
+        @media (min-width: 768px) {
+            .content-card {
+                margin-left: 250px; /* Width of the sidebar */
+            }
+
+            .toggle-sidebar-btn {
+                top: 56px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- First Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/loginsuccess">Deploy.ai</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/loginsuccess/docs">Docs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/loginsuccess/tutorials">Tutorials</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/loginsuccess/needhelp">Need Help</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-danger" href="/logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+  <ul class="sidebar-menu">
+    <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff);" onclick="toggleChatbot()">Create Deployment Plan</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">AI Deployment Plans</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">AI Architecture</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">Collaborative Space</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">Alert Manager</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">CRM Integration</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff);">Management Tools</a></li>
+      <li><a href="#" style="background: linear-gradient(to bottom, #f0f9ff, #cbebff); ">Settings</a></li>
+      
+  </ul>
+</div>
+
+<!-- Toggle Sidebar Button -->
+<button class="toggle-sidebar-btn" type="button" onclick="toggleSidebar()">Deploy</button>
+
+<!-- Page Content -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Main Content -->
+        
+            <div class="content-card">
+                <div class="content">
+                    <h1>Welcome to Your Dashboard,{{user_name}} your email </h1>
+                    <p>This is your starting point to create, manage, and monitor your deployments.</p>
+                    <h1>Login Successful</h1>
+                    <p>Your access token is: {{ access_token }}</p>
+                    <p>User ID: {{ user_id }}</p>
+                    <p>User Name: {{ user_name }}</p>
+                    <!-- Your main content goes here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Avatar Icon -->
+<div class="avatar-container" id="avatar-container">
+    <div class="avatar-icon" onclick="toggleChatbot()"></div>
+</div>
+
+<!-- Chatbot Container -->
+<div class="chatbot-container" id="chatbot-container" style="display: none; padding: 50px;margin: 50px;">
+    <!-- Chatbot Content Goes Here -->
+    {% include 'chatbot.html' %}
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.7/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function(){
+    // Ensure Bootstrap components are properly initialized
+    $('[data-toggle="collapse"]').collapse();
+
+    // Add event listener to the collapse event of the navbar
+    $('.navbar-collapse').on('hidden.bs.collapse', function () {
+        toggleChatbot(); // Call toggleChatbot() when navbar collapses
+    });
+});
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.style.left === '-250px') {
+        sidebar.style.left = '0';
+    } else {
+        sidebar.style.left = '-250px';
+    }
+}
+
+function toggleChatbot() {
+    const chatbotContainer = document.getElementById('chatbot-container');
+    chatbotContainer.style.display = (chatbotContainer.style.display === 'none') ? 'block' : 'none';
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deploy.ai - Mastering Software Deployment</title>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <!-- Optional theme -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap-theme.min.css"
+    />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="your-custom-styles.css" />
+  </head>
+  <body>
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      /* Testimonial styles */
+      .testimonial {
+        background: linear-gradient(to bottom, #f0f9ff, #cbebff);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 30px;
+      }
+
+      .testimonial:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .testimonial img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+      }
+
+      .testimonial h3 {
+        color: #333;
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+      }
+
+      .testimonial p {
+        color: #666;
+        font-size: 1.1rem;
+        line-height: 1.6;
+      }
+
+      /* Feature card styles */
+      .feature-card {
+        background: linear-gradient(to bottom, #f0f9ff, #cbebff);
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+        margin-bottom: 20px;
+      }
+
+      .feature-card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .card-title {
+        color: #333;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .card-text {
+        color: #666;
+      }
+      .jumbotron {
+        background: linear-gradient(to bottom, #f0f9ff, #cbebff);
+        padding: 100px 0;
+        text-align: center;
+        border-radius: 0;
+      }
+
+      .jumbotron h1 {
+        color: #333;
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 30px;
+      }
+
+      .jumbotron p {
+        color: #666;
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+      }
+
+      .jumbotron .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+      }
+
+      .jumbotron .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
+      body {
+        font-family: "raleway", sans-serif;
+      }
+    </style>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">
+        <img src="{{ url_for('static', filename='images/logo.webp') }}"
+        style="max-height: 40px;alt="Logo"> Deploy.ai
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/about">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/howitworks">How It Works</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdownContribute"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Contribute
+            </a>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="navbarDropdownContribute"
+            >
+              <a class="dropdown-item" href="/contribute/donate">1</a>
+              <a class="dropdown-item" href="/contribute/volunteer">2</a>
+              <a class="dropdown-item" href="/contribute/volunteer">3</a>
+              <!-- Add more dropdown items as needed -->
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-4">Deploy.ai</h1>
+        <p class="lead">
+          Revolutionize Your Software Deployment with AI-driven Strategies and
+          Automation.
+        </p>
+        <div class="Start_btns">
+          <a class="btn btn-success btn-lg" href="/login" role="button"
+            >Start Deployment</a
+          >
+          <a
+            class="btn btn-primary btn-lg"
+            href="#key-features-section"
+            role="button"
+            >Explore Features</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="key-features-section" class="container my-5">
+      <h2 class="text-center mb-4">Key Features</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Personalized Plans</h3>
+              <p class="card-text">
+                Create personalized deployment and release plans tailored to
+                your unique project needs.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Team Collaboration</h3>
+              <p class="card-text">
+                Enhance productivity by collaborating seamlessly with your team
+                within the platform.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Instant Pricing</h3>
+              <p class="card-text">
+                Get instant, transparent pricing for your deployments to manage
+                and optimize your budget.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">One-Click Deployments</h3>
+              <p class="card-text">
+                Execute complex deployments flawlessly with a single click,
+                saving time and reducing errors.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Automatic Architecture</h3>
+              <p class="card-text">
+                Build automatic deployment architectures that are optimized for
+                efficiency and scalability.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Customization</h3>
+              <p class="card-text">
+                Easily customize your deployment strategies on both micro and
+                macro levels.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Expert Recommendations</h3>
+              <p class="card-text">
+                Receive expert recommendations to make informed decisions and
+                improve your deployment process.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Specialized Alerts</h3>
+              <p class="card-text">
+                Stay informed with specialized alerts that keep you updated on
+                your deployment's progress and issues.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card">
+            <div class="card-body">
+              <h3 class="card-title">Automatic Deployments</h3>
+              <p class="card-text">
+                Set your deployments to run automatically at predetermined times
+                or conditions for increased efficiency.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="container-fluid bg-light text-center py-5">
+      <h2>Trusted by Industry Leaders</h2>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="testimonial">
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Testimonial 1"
+                class="img-fluid rounded-circle mb-3"
+              />
+              <h3>John Doe</h3>
+              <p>
+                "Deploy.ai helped us streamline our deployment process and saved
+                us valuable time and resources. Highly recommended!"
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial">
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Testimonial 2"
+                class="img-fluid rounded-circle mb-3"
+              />
+              <h3>Jane Smith</h3>
+              <p>
+                "We've been using Deploy.ai for months now, and it has
+                significantly improved our deployment efficiency. It's a
+                game-changer!"
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="testimonial">
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Testimonial 3"
+                class="img-fluid rounded-circle mb-3"
+              />
+              <h3>Michael Johnson</h3>
+              <p>
+                "I can't imagine managing deployments without Deploy.ai. It's
+                intuitive, powerful, and has everything we need."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="container-fluid text-center py-5">
+      <h2>Optimize Your Deployment Today</h2>
+      <p>
+        Join a growing number of professionals who are enhancing their
+        deployment process with Deploy.ai.
+      </p>
+      <a class="btn btn-success btn-lg" href="/login" role="button"
+        >Try One-Click Deploy</a
+      >
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <section
+        class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom"
+      >
+        <!-- Add social media links here -->
+      </section>
+      <div
+        class="text-center p-4"
+        style="background-color: rgba(0, 0, 0, 0.05)"
+      >
+        © 2024 Deploy.ai. All rights reserved.
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

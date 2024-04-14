@@ -56,17 +56,26 @@ We are using the AWS's Well Architected Framework to create this project which e
 
 
 ## Repository Structure:
+Frontend of our Application:
 
-Files:
+ChatBot Interaction: Users interact with our ChatBot to effortlessly provide essential details related to their source code/application. This interaction streamlines the deployment process, ensuring seamless deployment on AWS with just one click.
+Backend of the Application:
+2. Python Automation (app.py): We employ an automation script named "app.py" to manage Jenkins pipelines, functioning as orchestrators for infrastructure setup in AWS and source code configuration within EC2 instances.
 
-* /json_read.py - main file that reads the contents of the json file and matches with existing deployment json's. Then runs the corresponding infrastructure scripts and other scripts necessary for deployment. 
+Jenkins Pipeline1 - Infrastructure Creation:
 
-* /json_read_starter.py - 
+This pipeline triggers a Terraform script tailored to create AWS infrastructure aligned with the requirements of the source code. It encompasses provisioning resources like EC2 instances, security groups, Load Balancers, and other essential components.
+Jenkins Pipeline2:
+
+Stage 1: Within Pipeline2, Stage 1 executes a Python Boto3 script to fetch EC2 IP addresses and Ansible user information. This data populates a hosts.ini file crucial for Ansible playbook execution.
+Stage 2: Ensures secure storage of requisite files (.pem and .yml) such as SSH private keys and Ansible playbooks on the Ansible server.
+Stage 3: Executes the Ansible playbook to configure EC2 instances with the source code and requisite software dependencies.
+Manual Configuration in Cloudflare:
+Involves manually configuring DNS addresses for the Load Balancer in Cloudflare to effectively manage DNS and incoming traffic routed to our AWS infrastructure. This step ensures seamless and optimized traffic flow to our application.
 
 
-* /website/index.html - landing page for the website
 
-Things To Do:
+Things To Do in Future scope:
 
 0. S3 bucket instead of dumps folder
 1. Compare json against dynamoDB/documentDB instead of other jsons in the library.

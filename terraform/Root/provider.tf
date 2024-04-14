@@ -11,8 +11,8 @@ provider "aws" {
   # Configuration options
   region = var.region#"us-east-1"
   profile = "default"
-  access_key = "AKIAU6GDVZE3CAEDBJ2D" # Not recommended to hardcode
-  secret_key = "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" # Not recommended to hardcode
+  access_key = "AKIA47CRXROZ2COZH25C" # Not recommended to hardcode
+  secret_key = "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" # Not recommended to hardcode
 }
 
 

@@ -1,0 +1,16 @@
+{
+    "Python Application Type": "Web Application",
+    "AWS Services": "Not specified",
+    "Scalability Requirements": "Low",
+    "Third-Party Dependencies": "No",
+    "Fault Tolerance and High Availability": "Not specified",
+    "Framework": "Flask",
+    "Web Server": "Nginx",
+    "Storage Requirements": "No",
+    "Environment Variables Required": "No",
+    "Deployment Method": "Docker",
+    "Security Requirements": "No",
+    "Traffic Volume": "Low",
+    "Domain Name Required": "No",
+    "Monitoring and Logging Tools": "No"
+}

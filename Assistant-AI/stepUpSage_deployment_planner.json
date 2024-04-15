@@ -1,0 +1,10 @@
+{
+    "application_name": "flask_test",
+    "docker_image_repository_url": "https://hub.docker.com/repository/docker/charanyandrapu/flast_testapp/",
+    "required_aws_services": [
+        "Amazon ECS",
+        "AWS Fargate",
+        "Amazon EC2",
+        "Amazon RDS"
+    ]
+}

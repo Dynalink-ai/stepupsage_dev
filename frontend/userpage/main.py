@@ -6,7 +6,7 @@ import openai, os, time
 from werkzeug import *
 
 # Set the OpenAI API key
-openai.api_key = "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"
+openai.api_key = ""
 
 # Define the name of the bot
 name = 'StΣpUp SαgΕ 🤖'
